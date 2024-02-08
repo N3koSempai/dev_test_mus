@@ -1,10 +1,10 @@
 import { create } from 'zustand'
 
-const IMG_POSSIBLE_STATE = {
-  NONE: 'none',
-  READY: 'ready',
-  PROCESSING: 'processing'
-}
+// const IMG_POSSIBLE_STATE = {
+//   NONE: 'none',
+//   READY: 'ready',
+//   PROCESSING: 'processing'
+// }
 const useFlightInfo = create((set) => ({
   code: '',
   capacity: 1,
