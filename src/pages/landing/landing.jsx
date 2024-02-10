@@ -1,7 +1,9 @@
 import {
   Card,
-  Typography
-
+  Typography,
+  Button,
+  CardFooter,
+  IconButton
 } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import GetFlightsData from '../../adapters/getFlightsData'
@@ -9,10 +11,17 @@ const TABLE_HEAD = ['code', 'capacity', 'departure Date']
 
 export default function LandingPage () {
   const [TABLE_ROWS, setTableRows] = useState([{}, {}, {}])
+  const [totalPage, setTotalPage] = useState(1)
 
-  const getFlights = async () => {
-    const resp = await GetFlightsData()
+  const getFlights = async (key = 0) => {
+    const resp = await GetFlightsData(key)
     setTableRows(resp.resources)
+    if (resp.total > 10) {
+      const pagesQuantity = resp.total / 10
+      setTotalPage(pagesQuantity)
+    } else {
+      setTotalPage(1)
+    }
   }
   useEffect(() => {
     getFlights()
@@ -99,6 +108,27 @@ export default function LandingPage () {
             })}
           </tbody>
         </table>
+        <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4' style={{ width: '90%', margin: '2%' }}>
+          <Button variant='outlined' size='sm'>
+            Previous
+          </Button>
+          <div className='flex items-center gap-2'>
+            {(() => {
+              const elements = []
+              for (let i = 0; i < totalPage; i += 1) {
+                elements.push(<IconButton variant='outlined' size='sm' key={i} onClick={() => { getFlights(i) }}>{i}</IconButton>)
+                if (i === 10) {
+                  elements.push(<p>...</p>)
+                  break
+                }
+              }
+              return elements
+            })()}
+          </div>
+          <Button variant='outlined' size='sm'>
+            Next
+          </Button>
+        </CardFooter>
       </Card>
     </div>
   )

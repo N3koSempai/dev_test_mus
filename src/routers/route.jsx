@@ -11,7 +11,7 @@ const rootRoute = new RootRoute({})
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/',
+  path: '/home',
   component: function Index () {
     return (
       <App />
@@ -21,7 +21,7 @@ const indexRoute = createRoute({
 
 const landingRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/Landing',
+  path: '/',
   component: function Index () {
     return (
       <LandingPage />
