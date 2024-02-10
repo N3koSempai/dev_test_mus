@@ -2,6 +2,8 @@ import { Button, CardBody, Card, Typography, ButtonGroup, CardHeader } from '@ma
 import './App.css'
 import useFlightInfo from './stores/store'
 import flightimg from './assets/BestFlight.png'
+import useGetFlights from './services/getFlights'
+import GetFlightsData from './adapters/getFlightsData'
 function App () {
   return (
     <>
@@ -55,7 +57,7 @@ function App () {
             </Typography>
             <ButtonGroup className='gap-4 lg:mt-6 items-center justify-center'>
               <Button className='MainButton'> I have a ticket</Button>
-              <Button className='MainButton'> Search available flights</Button>
+              <Button onClick={GetFlightsData} className='MainButton'> Search available flights</Button>
             </ButtonGroup>
           </CardBody>
         </Card>

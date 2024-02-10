@@ -12,6 +12,7 @@
     "server-debug": "flights-server --verbose"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.1",
     "@material-tailwind/react": "^2.1.8",
     "@tanstack/react-router": "^1.15.22",
     "axios": "^1.6.7",

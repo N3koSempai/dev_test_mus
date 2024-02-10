@@ -5,6 +5,7 @@ import {
   createRoute,
   RootRoute
 } from '@tanstack/react-router'
+import LandingPage from '../pages/landing/landing'
 
 const rootRoute = new RootRoute({})
 
@@ -18,6 +19,16 @@ const indexRoute = createRoute({
   }
 })
 
+const landingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/Landing',
+  component: function Index () {
+    return (
+      <LandingPage />
+    )
+  }
+})
+
 const DashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/Dashboard',
@@ -26,6 +37,6 @@ const DashboardRoute = createRoute({
   }
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, DashboardRoute])
+const routeTree = rootRoute.addChildren([indexRoute, DashboardRoute, landingRoute])
 
 export const router = createRouter({ routeTree })
