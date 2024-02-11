@@ -7,6 +7,7 @@ import {
 } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import GetFlightsData from '../../adapters/getFlightsData'
+import urlParseData, { urlUpdateLocation } from '../../utils/urlParsedata'
 const TABLE_HEAD = ['code', 'capacity', 'departure Date']
 
 export default function LandingPage () {
@@ -18,16 +19,18 @@ export default function LandingPage () {
   const changeActualPage = (page) => {
     if (page >= 1) {
       setActualPage(page)
-      getFlights(page)
+      const currentUrl = window.location.href
+      console.log(page, size)
+      urlUpdateLocation(currentUrl, page, size)
     }
   }
 
   const changeSize = (value) => {
     setSize(value)
+    const currentUrl = window.location.href
+    urlUpdateLocation(currentUrl, actualPage, value)
   }
-  useEffect(() => {
-    getFlights(1, size)
-  }, [size])
+
   // get list of flights from server
   const getFlights = async (key = 1, size = 10) => {
     const resp = await GetFlightsData(key, size)
@@ -41,7 +44,10 @@ export default function LandingPage () {
     }
   }
   useEffect(() => {
-    getFlights()
+    const currentUrl = window.location.href
+
+    const { page = 1, size = 10 } = urlParseData(currentUrl)
+    getFlights(page, size)
   }, [])
   return (
     <div
@@ -79,7 +85,6 @@ export default function LandingPage () {
             {TABLE_ROWS.map(({ code, capacity, departureDate }, index) => {
               const isLast = index === TABLE_ROWS.length - 1
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
-
               return (
                 <tr key={index}>
                   <td className={classes}>
