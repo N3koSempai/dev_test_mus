@@ -3,7 +3,7 @@ import {
   Typography,
   Button,
   CardFooter,
-  IconButton
+  IconButton, Select, Option
 } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import GetFlightsData from '../../adapters/getFlightsData'
@@ -12,12 +12,29 @@ const TABLE_HEAD = ['code', 'capacity', 'departure Date']
 export default function LandingPage () {
   const [TABLE_ROWS, setTableRows] = useState([{}, {}, {}])
   const [totalPage, setTotalPage] = useState(1)
+  const [actualPage, setActualPage] = useState(1)
+  const [size, setSize] = useState('10')
 
-  const getFlights = async (key = 0) => {
-    const resp = await GetFlightsData(key)
+  const changeActualPage = (page) => {
+    if (page >= 1) {
+      setActualPage(page)
+      getFlights(page)
+    }
+  }
+
+  const changeSize = (value) => {
+    setSize(value)
+  }
+  useEffect(() => {
+    getFlights(1, size)
+  }, [size])
+  // get list of flights from server
+  const getFlights = async (key = 1, size = 10) => {
+    const resp = await GetFlightsData(key, size)
+
     setTableRows(resp.resources)
-    if (resp.total > 10) {
-      const pagesQuantity = resp.total / 10
+    if (resp.total > 10 && resp.total > resp.resources.length) {
+      const pagesQuantity = Math.ceil(resp.total / 10)
       setTotalPage(pagesQuantity)
     } else {
       setTotalPage(1)
@@ -64,7 +81,7 @@ export default function LandingPage () {
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
 
               return (
-                <tr key={code}>
+                <tr key={index}>
                   <td className={classes}>
                     <Typography
                       variant='small'
@@ -92,42 +109,41 @@ export default function LandingPage () {
                       {departureDate}
                     </Typography>
                   </td>
-                  <td className={classes}>
-                    <Typography
-                      as='a'
-                      href='#'
-                      variant='small'
-                      color='blue-gray'
-                      className='font-medium'
-                    >
-                      Edit
-                    </Typography>
-                  </td>
                 </tr>
               )
             })}
           </tbody>
         </table>
-        <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4' style={{ width: '90%', margin: '2%' }}>
-          <Button variant='outlined' size='sm'>
-            Previous
-          </Button>
-          <div className='flex items-center gap-2'>
-            {(() => {
-              const elements = []
-              for (let i = 0; i < totalPage; i += 1) {
-                elements.push(<IconButton variant='outlined' size='sm' key={i} onClick={() => { getFlights(i) }}>{i}</IconButton>)
-                if (i === 10) {
-                  elements.push(<p>...</p>)
-                  break
+        <CardFooter className='flex flex-col items-center justify-between border-t border-blue-gray-50 p-4' style={{ width: '90%' }}>
+          <div className='flex items-center justify-between border-t border-blue-gray-50 p-4' style={{ width: '90%', margin: '2%' }}>
+            <Button variant='outlined' size='sm' onClick={() => { changeActualPage(actualPage - 1) }}>
+              Previous
+            </Button>
+            <div className='flex items-center gap-2'>
+              {(() => {
+                const elements = []
+                for (let i = 1; i <= totalPage; i += 1) {
+                  elements.push(<IconButton variant='outlined' size='sm' key={i} onClick={() => { changeActualPage(i) }}>{i}</IconButton>)
+                  if (i === 10) {
+                    elements.push(<p>...</p>)
+                    break
+                  }
                 }
-              }
-              return elements
-            })()}
+                return elements
+              })()}
+            </div>
+            <Button variant='outlined' size='sm' onClick={() => { changeActualPage(actualPage + 1) }}>
+              Next
+            </Button>
           </div>
-          <Button variant='outlined' size='sm'>
-            Next
-          </Button>
+          <div>
+            <Select value={size} onChange={(value) => { changeSize(value) }} label='size of list'>
+              <Option value='10'>10</Option>
+              <Option value='15'>15</Option>
+              <Option value='20'>20</Option>
+              <Option value='25'>25</Option>
+            </Select>
+          </div>
         </CardFooter>
       </Card>
     </div>
