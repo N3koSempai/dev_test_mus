@@ -1,4 +1,5 @@
 export default function urlParseData (url) {
+  const baseUrl = import.meta.env.VITE_FRONTEND_URL
   const myUrl = new URL(url)
   let page = myUrl.searchParams.get('page')
   let size = myUrl.searchParams.get('size')
@@ -10,19 +11,20 @@ export default function urlParseData (url) {
   } else {
     try {
       page = parseInt(page)
+      console.log(page)
       size = parseInt(size)
+      if (isNaN(page) === true || isNaN(size) === true) {
+        throw new Error('not a number')
+      }
     } catch {
-      page = 1
-      size = 10
+      window.location.assign(`${baseUrl}/BadRequest`)
     }
   }
   return { page, size }
 }
 
-export function urlUpdateLocation (url, page, size) {
-  const baseUrl = url.split('?')[0]
-  const params = new URLSearchParams(url.slice(baseUrl.length))
+export function urlUpdateLocation (page = 1, size = 10) {
+  const baseUrl = import.meta.env.VITE_FRONTEND_URL
   const newUrl = `${baseUrl}?page=${page}&size=${size}`
-  console.log(newUrl)
   window.location.assign(newUrl)
 }
