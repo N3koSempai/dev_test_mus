@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from 'react'
 import GetFlightsData from '../../adapters/getFlightsData'
 import urlParseData, { urlUpdateLocation } from '../../utils/urlParsedata'
+import CreateFlightsButton from './components/createFlightsButton'
 const TABLE_HEAD = ['code', 'capacity', 'departure Date']
 
 export default function LandingPage () {
@@ -19,16 +20,13 @@ export default function LandingPage () {
   const changeActualPage = (page) => {
     if (page >= 1) {
       setActualPage(page)
-      const currentUrl = window.location.href
-      console.log(page, size)
-      urlUpdateLocation(currentUrl, page, size)
+      urlUpdateLocation(page, size)
     }
   }
 
   const changeSize = (value) => {
     setSize(value)
-    const currentUrl = window.location.href
-    urlUpdateLocation(currentUrl, actualPage, value)
+    urlUpdateLocation(actualPage, value)
   }
 
   // get list of flights from server
@@ -141,13 +139,14 @@ export default function LandingPage () {
               Next
             </Button>
           </div>
-          <div>
+          <div className='flex flex-row items-center justify-center gap-4'>
             <Select value={size} onChange={(value) => { changeSize(value) }} label='size of list'>
               <Option value='10'>10</Option>
               <Option value='15'>15</Option>
               <Option value='20'>20</Option>
               <Option value='25'>25</Option>
             </Select>
+            <CreateFlightsButton get={getFlights} />
           </div>
         </CardFooter>
       </Card>

@@ -8,7 +8,7 @@ import { create } from 'zustand'
 const useFlightInfo = create((set) => ({
   code: '',
   capacity: 1,
-  departureDate: '',
+  departureDate: Date,
   imgStatus: 'none',
   img: '',
   changeCode: (newCode) => set(() => ({ code: newCode })),
