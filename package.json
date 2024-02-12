@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "( flights-server --async --noreadme --port 3000 & ) && sleep 5 && vite --port 5173",
     "dev": "vite --port 5173",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",

@@ -57,10 +57,10 @@ export default function LandingPage () {
       <Card
         className='' style={{
           width: '50%',
-          height: 'auto'
+          height: '80%'
         }}
       >
-        <table className='w-full min-w-max table-auto text-left'>
+        <table className='w-full min-w-max table-auto  flex flex-col overflow-y-scroll' style={{ width: '100%' }}>
           <thead>
             <tr>
               {TABLE_HEAD.map((head) => (
@@ -79,7 +79,7 @@ export default function LandingPage () {
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody className=''>
             {TABLE_ROWS.map(({ code, capacity, departureDate }, index) => {
               const isLast = index === TABLE_ROWS.length - 1
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
