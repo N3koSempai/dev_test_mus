@@ -13,21 +13,18 @@ export default async function checkFlight (code) {
 }
 
 export async function createFlight (code, capacity, departure) {
-  console.log(typeof (capacity))
   capacity = parseInt(capacity)
-  console.log(typeof (departure))
+
   const params = {
     code,
     capacity,
     departureDate: departure
   }
   const response = await createFlightService(params)
-  console.log(response.status)
+
   if (response.status === 201) {
-    console.log('ok')
     return true
   } else {
-    console.log('fail')
     return false
   }
 }

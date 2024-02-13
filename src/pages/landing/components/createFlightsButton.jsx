@@ -13,6 +13,8 @@ import useFlightInfo from '../../../stores/store'
 import { useState } from 'react'
 import isOnlyDigits from '../../../utils/isDigits'
 import checkFlight, { createFlight } from '../../../adapters/createFlight'
+import ImageLoader from './imagenLoader'
+import createFlightWithPhoto from '../../../adapters/createFlightWithPhoto'
 
 export default function CreateFlightsButton ({ get }) {
   const [open, setOpen] = useState(false)
@@ -20,7 +22,8 @@ export default function CreateFlightsButton ({ get }) {
   const [flightSuccess, setFlightSuccess] = useState(false)
   const [imgAvailable, setImgAvailable] = useState(false)
   const handleOpen = () => setOpen((cur) => !cur)
-  const { code, capacity, departureDate, changeCode, changeCapacity, changeDeparture } = useFlightInfo()
+  const { code, capacity, departureDate, img, changeCode, changeCapacity, changeDeparture } = useFlightInfo()
+
   const checkCodeFormat = (event) => {
     console.log(event.target.value)
     const regex = /^[a-zA-Z]+$/
@@ -33,17 +36,20 @@ export default function CreateFlightsButton ({ get }) {
       changeCode(event.target.value)
     }
   }
+
   const updateDepartureDate = (event) => {
     const date = event.target.value
     setCodeError('')
     changeDeparture(date)
   }
+
   const handleSuccess = () => {
     setCodeError('')
     setFlightSuccess(false)
     handleOpen()
     get()
   }
+
   const handleCreateFlight = async () => {
     if (departureDate === Date) {
       setCodeError('departure date is require')
@@ -52,11 +58,18 @@ export default function CreateFlightsButton ({ get }) {
         setCodeError('code input cannot by empty')
       }
       const resp = await checkFlight(code, capacity, departureDate)
+
       if (resp === true) {
         setCodeError('')
-        const res = await createFlight(code, capacity, departureDate)
+        let res
+        if (imgAvailable === true) {
+          res = await createFlightWithPhoto(code, capacity, departureDate, img)
+        } else {
+          res = await createFlight(code, capacity, departureDate)
+        }
         if (res === true) {
           setFlightSuccess(true)
+          get()
         } else {
           setCodeError('unknown error')
         }
@@ -124,7 +137,7 @@ export default function CreateFlightsButton ({ get }) {
               <Input value={departureDate} onChange={(value) => { updateDepartureDate(value) }} color='blue' label='Departure Date' type='date' />
               <div>
                 <Checkbox label='have photo?' value={imgAvailable} onChange={() => { setImgAvailable(!imgAvailable) }} />
-
+                {imgAvailable ? <ImageLoader getPhoto={setImgAvailable} /> : <></>}
               </div>
               {codeError ? <Alert color='orange' variant='small' className='mt-1 text-color-gray'>{codeError}</Alert> : <></>}
               <Button onClick={handleCreateFlight}>Create flight</Button>

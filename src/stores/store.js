@@ -10,7 +10,7 @@ const useFlightInfo = create((set) => ({
   capacity: 1,
   departureDate: Date,
   imgStatus: 'none',
-  img: '',
+  img: [],
   changeCode: (newCode) => set(() => ({ code: newCode })),
   changeCapacity: (newCapacity) => set(() => ({ capacity: newCapacity })),
   changeDeparture: (newDeparture) => set(() => ({ departureDate: newDeparture })),
