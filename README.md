@@ -8,6 +8,11 @@
 
 ## Getting started:
 
+### install dependencies
+```bash
+pnpm install
+```
+
 ### run app  with:
 
 ```bash
