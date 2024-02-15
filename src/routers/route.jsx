@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-router'
 import LandingPage from '../pages/landing/landing'
 import BadRequest from '../pages/errorPage/badRequest'
-
+import PreLanding from '../pages/landing/preLanding'
 const rootRoute = new RootRoute({})
 
 const BadRoute = createRoute({
@@ -35,7 +35,7 @@ const landingRoute = createRoute({
   path: '/',
   component: function Index () {
     return (
-      <LandingPage />
+      <PreLanding />
     )
   }
 })
