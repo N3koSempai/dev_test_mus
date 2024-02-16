@@ -19,7 +19,7 @@ const customTheme = {
     }
   }
 }
-const TABLE_HEAD = ['code', 'capacity', 'departure Date', 'photo']
+const TABLE_HEAD = ['code', 'capacity', 'departure Date', 'photo', 'edition']
 
 export default function LandingPage () {
   const [TABLE_ROWS, setTableRows] = useState([{}, {}, {}])
@@ -117,6 +117,15 @@ export default function LandingPage () {
                     <td className={`${classes}`}>
                       <Typography>
                         {img ? <Button className='' variant='small'>view Photo</Button> : 'no photo'}
+                      </Typography>
+
+                    </td>
+                    <td className={`${classes} `}>
+                      <Typography
+                        variant='small'
+                        className='font-normal'
+                      >
+                        edit
                       </Typography>
 
                     </td>

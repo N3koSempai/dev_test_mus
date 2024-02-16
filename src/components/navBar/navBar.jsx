@@ -18,6 +18,7 @@ import {
 } from '@material-tailwind/react'
 import { useUserInfo } from '../../stores/User'
 import AvatarIcon from '../../assets/account.svg'
+import loginUser from '../../adapters/loginUser'
 export function NavbarTool () {
   const { login, changeLogin } = useUserInfo()
   const [openNav, setOpenNav] = React.useState(false)
@@ -34,6 +35,19 @@ export function NavbarTool () {
     )
   }, [])
 
+  const handlerLogin = async () => {
+    const userInfo = document.getElementById('userInput')?.value
+    const passInfo = document.getElementById('passInput')?.value
+    const resp = await loginUser(userInfo, passInfo)
+    if (resp === true) {
+      changeLogin(true)
+      setOpenDialog(false)
+    }
+  }
+  const handlerLogout = () => {
+    changeLogin(false)
+    window.localStorage.removeItem('userSession')
+  }
   return (
     <Navbar className='mx-auto mt-2 max-w-screen-xl px-4 py-2 lg:px-8 lg:py-4 w-[60%]'>
 
@@ -41,8 +55,8 @@ export function NavbarTool () {
         <DialogHeader className='flex items-center justify-center'> <Typography style={{ fontWeight: 700, fontSize: '1.5rem' }}>login </Typography></DialogHeader>
         <DialogBody>
           <div className='flex flex-col gap-4'>
-            <Input label='User' placeholder='Admin' />
-            <Input label='Password' placeholder='*****' />
+            <Input id='userInput' label='User' placeholder='Admin' />
+            <Input id='passInput' label='Password' placeholder='*****' />
           </div>
         </DialogBody>
         <DialogFooter>
@@ -54,7 +68,7 @@ export function NavbarTool () {
           >
             <span>Cancel</span>
           </Button>
-          <Button variant='gradient' color='green' onClick={handlerOpen}>
+          <Button variant='gradient' color='green' onClick={handlerLogin}>
             <span>Confirm</span>
           </Button>
         </DialogFooter>
@@ -90,12 +104,7 @@ export function NavbarTool () {
 
           {login
 
-            ? <Button variant='text' size='sm' onClick={handlerOpen}>
-              Log In
-              {/* eslint-disable-next-line */}
-              </Button>
-
-            : <Menu open={isMenuOpen} handler={setIsMenuOpen} placement='bottom-end'>
+            ? <Menu open={isMenuOpen} handler={setIsMenuOpen} placement='bottom-end'>
               <MenuHandler>
                 <Button variant='small' className='flex items-center justify-center bg-gray-200'>
                   <Avatar variant='circular' size='sm' className='border border-gray-900 p-0.5' src={AvatarIcon} />
@@ -104,12 +113,17 @@ export function NavbarTool () {
               </MenuHandler>
 
               <MenuList className='p-1 flex self-center'>
-                <MenuItem className='text-center self-center' onClick={changeLogin}>
+                <MenuItem className='text-center self-center' onClick={handlerLogout}>
                   logout
                 </MenuItem>
               </MenuList>
               {/* eslint-disable-next-line */}
-            </Menu>}
+            </Menu>
+
+            : <Button variant='text' size='sm' onClick={handlerOpen}>
+              Log In
+              {/* eslint-disable-next-line */}
+              </Button>}
         </div>
         <IconButton
           variant='text'
@@ -159,6 +173,7 @@ export function NavbarTool () {
 
               ? <Button fullWidth variant='text' size='sm' className=''>
                 <span>Log In</span>
+
                 </Button>
               // eslint-disable-next-line
               : <Avatar src={AvatarIcon} />}
