@@ -58,7 +58,7 @@ export default function CreateFlightsButton ({ get }) {
         setCodeError('code input cannot by empty')
       }
       setIsLoading(true)
-      const resp = await checkFlight(code, capacity, departureDate)
+      const resp = await checkFlight(code)
 
       if (resp === true) {
         setCodeError('')
@@ -127,7 +127,7 @@ export default function CreateFlightsButton ({ get }) {
             </CardBody>
 
           </Card>
-          { }
+          
           </Dialog>
         : <Dialog
             size='xs'
@@ -139,7 +139,7 @@ export default function CreateFlightsButton ({ get }) {
           {isLoading
             ? <div className='flex flex-col items-center justify-center'>
               <LoadingScreen />
-              { }
+              
               </div>
 
             : <Card className='mx-auto w-full max-w-[24rem]'>
@@ -160,9 +160,9 @@ export default function CreateFlightsButton ({ get }) {
                 {codeError ? <Alert color='orange' variant='small' className='mt-1 text-color-gray'>{codeError}</Alert> : <></>}
                 <Button onClick={handleCreateFlight}>Create flight</Button>
               </CardBody>
-              { }
+              
             </Card>}
-          { }
+          
         </Dialog>}
     </div>
   )

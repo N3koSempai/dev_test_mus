@@ -10,9 +10,11 @@ import { useEffect, useState } from 'react'
 import GetFlightsData from '../../adapters/getFlightsData'
 import urlParseData from '../../utils/urlParsedata'
 import CreateFlightsButton from './components/createFlightsButton'
-
+import { Menu, MenuHandler, MenuItem,MenuList } from '@material-tailwind/react'
 import { useNavigate } from '@tanstack/react-router'
 import getImageAdapter from '../../adapters/getImage'
+import EditMenuButton from './components/editButton'
+
 // personalization module
 const customTheme = {
   TableCard: {
@@ -28,7 +30,10 @@ export default function LandingPage () {
   const [totalPage, setTotalPage] = useState(1)
   const [actualPage, setActualPage] = useState(1)
   const [size, setSize] = useState('10')
+
   const navigate = useNavigate()
+
+ 
 
   const getImage = async (id) => {
     const image = await getImageAdapter(id)
@@ -126,20 +131,15 @@ export default function LandingPage () {
                       </Typography>
 
                     </td>
-                    <td className={`${classes}`}>
-                      <Typography>
-                        {img ? <Button className='' variant='filled' size='sm' onClick={() => { getImage(id) }}>view Photo</Button> : 'no photo'}
-                      </Typography>
+                    <td className={`${classes} text-center  items-center justify-center`}>
+                      
+                        {img ? <Button className='bg-blue-300 ' variant='filled'  size='sm' onClick={() => { getImage(id) }}>view Photo</Button> :<Typography> '❌' </Typography>}
+                     
 
                     </td>
-                    <td className={`${classes} `}>
-                      <Typography
-                        variant='small'
-                        className='font-normal'
-                      >
-                        edit
-                      </Typography>
-
+                    <td className={`${classes} lg:-mr-7`}>
+                    <EditMenuButton get={getFlights} id={id} />
+                     
                     </td>
                   </tr>
 
