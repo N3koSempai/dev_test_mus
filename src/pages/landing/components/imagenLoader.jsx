@@ -34,6 +34,7 @@ export default function ImageLoader ({ getPhoto }) {
         dataURLKey='data_url'
         maxFileSize={102399}
         onImageRemoveAll={handleRemoveAll}
+        acceptType={['jpg','png']}
       >
         {({
           imageList,
