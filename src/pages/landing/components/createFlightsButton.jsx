@@ -15,7 +15,7 @@ import isOnlyDigits from '../../../utils/isDigits'
 import checkFlight, { createFlight } from '../../../adapters/createFlight'
 import ImageLoader from './imagenLoader'
 import createFlightWithPhoto from '../../../adapters/createFlightWithPhoto'
-
+import LoadingScreen from '../../../components/loadingScreen/loading'
 export default function CreateFlightsButton ({ get }) {
   const [open, setOpen] = useState(false)
   const [codeError, setCodeError] = useState('')
@@ -23,6 +23,7 @@ export default function CreateFlightsButton ({ get }) {
   const [imgAvailable, setImgAvailable] = useState(false)
   const handleOpen = () => setOpen((cur) => !cur)
   const { code, capacity, departureDate, img, changeCode, changeCapacity, changeDeparture } = useFlightInfo()
+  const [isLoading, setIsLoading] = useState(false)
 
   const checkCodeFormat = (event) => {
     console.log(event.target.value)
@@ -57,6 +58,7 @@ export default function CreateFlightsButton ({ get }) {
       if (code === '') {
         setCodeError('code input cannot by empty')
       }
+      setIsLoading(true)
       const resp = await checkFlight(code, capacity, departureDate)
 
       if (resp === true) {
@@ -68,9 +70,15 @@ export default function CreateFlightsButton ({ get }) {
           res = await createFlight(code, capacity, departureDate)
         }
         if (res === true) {
+          // this is only for animation purpose
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+          setIsLoading(false)
           setFlightSuccess(true)
           get()
         } else {
+          // this is only for animation purpose
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+          setIsLoading(false)
           setCodeError('unknown error')
         }
       } else {
@@ -105,6 +113,7 @@ export default function CreateFlightsButton ({ get }) {
             handler={handleOpen}
             className='bg-transparent shadow-none'
           >
+
           <Card className='mx-auto w-full max-w-[24rem]'>
             <CardBody className='flex flex-col gap-4 items-center justify-center text-center'>
               <Typography>
@@ -124,27 +133,32 @@ export default function CreateFlightsButton ({ get }) {
             handler={handleOpen}
             className='bg-transparent shadow-none'
           >
-          <Card className='mx-auto w-full max-w-[24rem]'>
-            <CardBody className='flex flex-col gap-4'>
-              <Typography variant='small' className='text-center'>
-                enter your flight data
-              </Typography>
-              <div>
-                <Input color='blue' value={code} onChange={(value) => { checkCodeFormat(value) }} label='Flights Code' placeholder='XfeSde' />
 
-              </div>
-              <Input value={capacity} onChange={(value) => { checkCapacity(value) }} color='blue' label='Capacity 0-200' placeholder='10' type='number' min='0' max='200' />
-              <Input value={departureDate} onChange={(value) => { updateDepartureDate(value) }} color='blue' label='Departure Date' type='date' />
-              <div>
-                <Checkbox label='have photo?' value={imgAvailable} onChange={() => { setImgAvailable(!imgAvailable) }} />
-                {imgAvailable ? <ImageLoader getPhoto={setImgAvailable} /> : <></>}
-              </div>
-              {codeError ? <Alert color='orange' variant='small' className='mt-1 text-color-gray'>{codeError}</Alert> : <></>}
-              <Button onClick={handleCreateFlight}>Create flight</Button>
-            </CardBody>
-          </Card>
-          {/* eslint-disable-next-line */}
-          </Dialog>}
+          {isLoading
+            ? <div className='flex flex-col items-center justify-center'>
+              <LoadingScreen />
+            </div>
+
+            : <Card className='mx-auto w-full max-w-[24rem]'>
+              <CardBody className='flex flex-col gap-4'>
+                <Typography variant='small' className='text-center'>
+                  enter your flight data
+                </Typography>
+                <div>
+                  <Input color='blue' value={code} onChange={(value) => { checkCodeFormat(value) }} label='Flights Code' placeholder='XfeSde' />
+
+                </div>
+                <Input value={capacity} onChange={(value) => { checkCapacity(value) }} color='blue' label='Capacity 0-200' placeholder='10' type='number' min='0' max='200' />
+                <Input value={departureDate} onChange={(value) => { updateDepartureDate(value) }} color='blue' label='Departure Date' type='date' />
+                <div>
+                  <Checkbox label='have photo?' value={imgAvailable} onChange={() => { setImgAvailable(!imgAvailable) }} />
+                  {imgAvailable ? <ImageLoader getPhoto={setImgAvailable} /> : <></>}
+                </div>
+                {codeError ? <Alert color='orange' variant='small' className='mt-1 text-color-gray'>{codeError}</Alert> : <></>}
+                <Button onClick={handleCreateFlight}>Create flight</Button>
+              </CardBody>
+            </Card>}
+        </Dialog>}
     </div>
   )
 }

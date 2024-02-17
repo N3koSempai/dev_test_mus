@@ -22,6 +22,8 @@ export async function createFlight (code, capacity, departure) {
   }
   const response = await createFlightService(params)
 
+  // adding time only for style purpose
+
   if (response.status === 201) {
     return true
   } else {
