@@ -1,10 +1,11 @@
+import GetFlightsData from '../adapters/getFlightsData'
+
 export default function urlParseData (url) {
   const baseUrl = import.meta.env.VITE_FRONTEND_URL
   const myUrl = new URL(url)
   let page = myUrl.searchParams.get('page')
   let size = myUrl.searchParams.get('size')
-  console.log(page)
-  console.log(size)
+
   if (page === null && size === null) {
     page = 1
     size = 10
@@ -26,5 +27,5 @@ export default function urlParseData (url) {
 export function urlUpdateLocation (page = 1, size = 10) {
   const baseUrl = import.meta.env.VITE_FRONTEND_URL
   const newUrl = `${baseUrl}?page=${page}&size=${size}`
-  window.location.assign(newUrl)
+  return newUrl
 }

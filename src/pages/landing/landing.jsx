@@ -10,7 +10,8 @@ import { useEffect, useState } from 'react'
 import GetFlightsData from '../../adapters/getFlightsData'
 import urlParseData, { urlUpdateLocation } from '../../utils/urlParsedata'
 import CreateFlightsButton from './components/createFlightsButton'
-import { NavbarTool } from '../../components/navBar/navBar'
+
+import { useNavigate } from '@tanstack/react-router'
 // personalization module
 const customTheme = {
   TableCard: {
@@ -26,23 +27,29 @@ export default function LandingPage () {
   const [totalPage, setTotalPage] = useState(1)
   const [actualPage, setActualPage] = useState(1)
   const [size, setSize] = useState('10')
+  const navigate = useNavigate()
 
-  const changeActualPage = (page) => {
+  const changeActualPage = async (page) => {
+    console.log(page)
     if (page >= 1) {
       setActualPage(page)
-      urlUpdateLocation(page, size)
+      // const resp = urlUpdateLocation(page, size)
+      await getFlights(page, size)
+      // navigate({ mask: { to: resp } })
     }
   }
 
-  const changeSize = (value) => {
-    setSize(value)
-    urlUpdateLocation(actualPage, value)
+  const changeSize = async (newSize) => {
+    setSize(newSize)
+    // const resp = urlUpdateLocation(actualPage, value)
+    // navigate({ mask: { to: resp } })
+    await getFlights(actualPage, newSize)
   }
 
   // get list of flights from server
   const getFlights = async (key = 1, size = 10) => {
     const resp = await GetFlightsData(key, size)
-
+    navigate({ mask: { to: `/?page=${key}&size=${size}` } })
     setTableRows(resp.resources)
     if (resp.total > 10 && resp.total > resp.resources.length) {
       const pagesQuantity = Math.ceil(resp.total / 10)
@@ -65,9 +72,9 @@ export default function LandingPage () {
           height: '100%'
         }}
       >
-        <Card className='!TableCard flex h-[90%] lg:w-[60%]  w-[80%] items-center pb-2 !shadow-2xl' style={{ borderRadius: '2rem' }}>
-          <table className='flex flex-col w-[100%] h-[80%] '>
-            <thead className=' w-full'>
+        <Card className='!TableCard flex h-[90%] mt-8 lg:w-[60%]  w-[80%] items-center pb-2 !shadow-2xl' style={{ borderRadius: '2rem' }}>
+          <table className='flex flex-col w-[100%] h-[80%] overflow-y-scroll lg:overflow-y-hidden '>
+            <thead className=' w-full  '>
               <tr className='grid grid-flow-col'>
                 {TABLE_HEAD.map((head) => (
                   <th key={head} className='border-b  border-blue-gray-100 bg-blue-gray-50 p-4'>
@@ -83,7 +90,7 @@ export default function LandingPage () {
               </tr>
             </thead>
 
-            <tbody className='flex flex-col w-full h-[100%] overflow-y-scroll '>
+            <tbody className='flex flex-col w-full h-[100%] overflow-y-scroll overflow-x-hidden'>
               {TABLE_ROWS.map(({ code, capacity, departureDate, img }, index) => {
                 const isLast = index === TABLE_ROWS.length - 1
                 const classes = isLast ? 'p-4 text-center ' : 'p-4 text-center border-b border-blue-gray-50'
@@ -116,7 +123,7 @@ export default function LandingPage () {
                     </td>
                     <td className={`${classes}`}>
                       <Typography>
-                        {img ? <Button className='' variant='small'>view Photo</Button> : 'no photo'}
+                        {img ? <Button className='' variant='filled' size='sm'>view Photo</Button> : 'no photo'}
                       </Typography>
 
                     </td>

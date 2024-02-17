@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   Navbar,
-  MobileNav,
   Typography,
   Button,
   IconButton
@@ -14,7 +13,7 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter
-  , Input
+  , Input, Collapse
 } from '@material-tailwind/react'
 import { useUserInfo } from '../../stores/User'
 import AvatarIcon from '../../assets/account.svg'
@@ -106,7 +105,7 @@ export function NavbarTool () {
 
             ? <Menu open={isMenuOpen} handler={setIsMenuOpen} placement='bottom-end'>
               <MenuHandler>
-                <Button variant='small' className='flex items-center justify-center bg-gray-200'>
+                <Button variant='filled' className='flex items-center justify-center bg-gray-200'>
                   <Avatar variant='circular' size='sm' className='border border-gray-900 p-0.5' src={AvatarIcon} />
 
                 </Button>
@@ -165,7 +164,7 @@ export function NavbarTool () {
               )}
         </IconButton>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse open={openNav}>
         <div className='container mx-auto'>
 
           <div className='flex items-center gap-x-1'>
@@ -180,7 +179,7 @@ export function NavbarTool () {
 
           </div>
         </div>
-      </MobileNav>
+      </Collapse>
     </Navbar>
   )
 }
