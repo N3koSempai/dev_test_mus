@@ -133,7 +133,7 @@ export default function LandingPage () {
                     </td>
                     <td className={`${classes} text-center  items-center justify-center`}>
                       
-                        {img ? <Button className='bg-blue-300 ' variant='filled'  size='sm' onClick={() => { getImage(id) }}>view Photo</Button> :<Typography> '❌' </Typography>}
+                        {img ? <Button className='bg-blue-300 ' variant='filled'  size='sm' onClick={() => { getImage(id) }}>view Photo</Button> :<Typography> ❌ </Typography>}
                      
 
                     </td>

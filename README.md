@@ -38,11 +38,11 @@ In production it is advisable to perform a build before running the frontend in 
 | 8 - send new flight to server     | :white_check_mark: full              |                                          |
 | 9 - handler error in new flight   | :white_check_mark: full              |                                          |
 | 10 - display photo                | :construction: working               |                                          |
-| 11 - display card in small screen | :x: not                              |                                          |
-| 12 - own component to cards       | :x:not                               |                                          |
-| 13 - unit test mocked server data | :x:not                               |                                          |
+| 11 - display card in small screen | :x:  not                             |                                          |
+| 12 - own component to cards       | :x: not                              |                                          |
+| 13 - unit test mocked server data | :x: not                              |                                          |
 | * Nice to have features           | :construction: working               |                                          |
-| * Special features                | :x:                                  |                                          |
+| * Special features                | :x: not                              |                                          |
 
 #### notes
 

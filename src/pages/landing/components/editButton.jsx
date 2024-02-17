@@ -6,13 +6,17 @@ import isOnlyDigits from '../../../utils/isDigits'
 import { editFlightAdapter } from "../../../adapters/editFlight"
 import GetFlightsData from "../../../adapters/getFlightsData"
 import { useEffect } from "react"
+import deleteFlightService from "../../../services/deleteFlight"
 
 export default function EditMenuButton({ get, id }) {
 
 
     const [editOption, setEditOption] = useState(false)
     const [deleteOption, setDeleteOption] = useState(false)
+    const [deleteStatus, setDeleteStatus] = useState(false)
     const handleOpen = () => setEditOption((cur) => !cur)
+    const handleOpenDelete = () => setDeleteOption((cur) => !cur)
+
     const [editStatus, setEditStatus] = useState(false)
     const [newCode, setNewCode] = useState('')
     const [capacity, setCapacity] = useState(1)
@@ -31,6 +35,7 @@ export default function EditMenuButton({ get, id }) {
                 setEditStatus(true)
             } else {
                 setCodeError('server error network')
+
             }
             
         } else {
@@ -78,6 +83,23 @@ export default function EditMenuButton({ get, id }) {
     }
   }
 
+  const handlerDelete = async () => {
+    
+    const resp = await deleteFlightService(oldId)
+
+    if (resp) {
+        setDeleteStatus(true)
+    } else {
+        setCodeError('server error network')
+    }
+  }
+
+  const handlerDeleteSuccess = async () => {
+    setDeleteOption(false)
+    setDeleteStatus(true)
+    get()
+  }
+
 
     return (
         <Menu className='flex items-center justify-center'>
@@ -86,7 +108,7 @@ export default function EditMenuButton({ get, id }) {
         </MenuHandler>
         <MenuList>
           <MenuItem onClick={() => {setEditOption(true)}} className="bg-orange-200 text-black  focus:bg-orange-400">Edit Flight</MenuItem>
-          <MenuItem className="bg-red-200 focus:bg-red-400 text-black">Delete</MenuItem>
+          <MenuItem onClick={() => {setDeleteOption(true)}} className="bg-red-200 focus:bg-red-400 text-black">Delete</MenuItem>
           
         </MenuList>
 
@@ -134,6 +156,51 @@ export default function EditMenuButton({ get, id }) {
               
             </Card>
             </Dialog>}
+
+            {deleteStatus ? 
+            <Dialog
+                size='xs'
+                open={deleteOption}
+                handler={handleOpenDelete}
+                className='bg-transparent shadow-none'
+              >
+    
+              <Card className='mx-auto w-full max-w-[24rem]'>
+                <CardBody className='flex flex-col gap-4 items-center justify-center text-center'>
+                  <Typography>
+                  Your flight was deleted successfully
+                  </Typography>
+                  <Button size='sm' color='green' onClick={handlerDeleteSuccess} className=''>
+                    Continue
+                  </Button>
+                </CardBody>
+    
+              </Card>
+              
+              </Dialog> :
+              <Dialog
+                size='xs'
+                open={deleteOption}
+                handler={handleOpenDelete}
+                className='bg-transparent shadow-none'
+              >
+              <Card className='mx-auto w-full max-w-[24rem]'>
+                <CardBody className='flex flex-col gap-4 items-center justify-center text-center'>
+                  <Typography className="w-[40%]">
+                  Are you sure you want to delete this flight?
+                  </Typography>
+                  <div className="flex flex-row gap-4">
+                  <Button size='sm' color='green' onClick={handleOpenDelete} className=''>
+                    Cancel
+                  </Button>
+                  <Button size='sm' color='red' onClick={handlerDelete} className=''>
+                    yes
+                  </Button>
+                  </div>
+                </CardBody>
+    
+              </Card>
+                </Dialog>}
       </Menu>
     )
   
