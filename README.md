@@ -36,7 +36,7 @@ In production it is advisable to perform a build before running the frontend in 
 | 6 - image control                 | :white_check_mark: full              | restricted to jpg                        |
 | 7 - preview of image              | :white_check_mark: full              |                                          |
 | 8 - send new flight to server     | :white_check_mark: full              |                                          |
-| 9 - handler error in new flight   | :construction: working               |                                          |
+| 9 - handler error in new flight   | :white_check_mark: full              |                                          |
 | 10 - display photo                | :construction: working               |                                          |
 | 11 - display card in small screen | :x: not                              |                                          |
 | 12 - own component to cards       | :x:not                               |                                          |

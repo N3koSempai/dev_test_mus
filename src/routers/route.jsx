@@ -5,7 +5,7 @@ import {
   createRoute,
   RootRoute
 } from '@tanstack/react-router'
-import LandingPage from '../pages/landing/landing'
+
 import BadRequest from '../pages/errorPage/badRequest'
 import PreLanding from '../pages/landing/preLanding'
 const rootRoute = new RootRoute({})

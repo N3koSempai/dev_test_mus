@@ -8,10 +8,11 @@ import {
 } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import GetFlightsData from '../../adapters/getFlightsData'
-import urlParseData, { urlUpdateLocation } from '../../utils/urlParsedata'
+import urlParseData from '../../utils/urlParsedata'
 import CreateFlightsButton from './components/createFlightsButton'
 
 import { useNavigate } from '@tanstack/react-router'
+import getImageAdapter from '../../adapters/getImage'
 // personalization module
 const customTheme = {
   TableCard: {
@@ -29,8 +30,12 @@ export default function LandingPage () {
   const [size, setSize] = useState('10')
   const navigate = useNavigate()
 
+  const getImage = async (id) => {
+    const image = await getImageAdapter(id)
+    console.log(image)
+  }
+
   const changeActualPage = async (page) => {
-    console.log(page)
     if (page >= 1) {
       setActualPage(page)
       // const resp = urlUpdateLocation(page, size)
@@ -91,7 +96,7 @@ export default function LandingPage () {
             </thead>
 
             <tbody className='flex flex-col w-full h-[100%] overflow-y-scroll overflow-x-hidden'>
-              {TABLE_ROWS.map(({ code, capacity, departureDate, img }, index) => {
+              {TABLE_ROWS.map(({ id, code, capacity, departureDate, img }, index) => {
                 const isLast = index === TABLE_ROWS.length - 1
                 const classes = isLast ? 'p-4 text-center ' : 'p-4 text-center border-b border-blue-gray-50'
                 return (
@@ -123,7 +128,7 @@ export default function LandingPage () {
                     </td>
                     <td className={`${classes}`}>
                       <Typography>
-                        {img ? <Button className='' variant='filled' size='sm'>view Photo</Button> : 'no photo'}
+                        {img ? <Button className='' variant='filled' size='sm' onClick={() => { getImage(id) }}>view Photo</Button> : 'no photo'}
                       </Typography>
 
                     </td>

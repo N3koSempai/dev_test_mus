@@ -116,13 +116,13 @@ export function NavbarTool () {
                   logout
                 </MenuItem>
               </MenuList>
-              {/* eslint-disable-next-line */}
+
             </Menu>
 
             : <Button variant='text' size='sm' onClick={handlerOpen}>
               Log In
-              {/* eslint-disable-next-line */}
-              </Button>}
+
+            </Button>}
         </div>
         <IconButton
           variant='text'
@@ -173,8 +173,8 @@ export function NavbarTool () {
               ? <Button fullWidth variant='text' size='sm' className=''>
                 <span>Log In</span>
 
-                </Button>
-              // eslint-disable-next-line
+              </Button>
+
               : <Avatar src={AvatarIcon} />}
 
           </div>

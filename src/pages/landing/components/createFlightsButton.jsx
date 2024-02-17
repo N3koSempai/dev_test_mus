@@ -26,10 +26,9 @@ export default function CreateFlightsButton ({ get }) {
   const [isLoading, setIsLoading] = useState(false)
 
   const checkCodeFormat = (event) => {
-    console.log(event.target.value)
     const regex = /^[a-zA-Z]+$/
     const isOnlyLetters = regex.test(event.target.value)
-    console.log(isOnlyLetters)
+
     if ((isOnlyLetters !== true && event.target.value.length !== 0) || event.target.value.length > 6) {
       setCodeError('Enter only lowercase and uppercase letters between 1 - 6 characters')
     } else {
@@ -128,7 +127,7 @@ export default function CreateFlightsButton ({ get }) {
             </CardBody>
 
           </Card>
-          {/* eslint-disable-next-line */}
+          { }
           </Dialog>
         : <Dialog
             size='xs'
@@ -140,6 +139,7 @@ export default function CreateFlightsButton ({ get }) {
           {isLoading
             ? <div className='flex flex-col items-center justify-center'>
               <LoadingScreen />
+              { }
               </div>
 
             : <Card className='mx-auto w-full max-w-[24rem]'>
@@ -160,8 +160,10 @@ export default function CreateFlightsButton ({ get }) {
                 {codeError ? <Alert color='orange' variant='small' className='mt-1 text-color-gray'>{codeError}</Alert> : <></>}
                 <Button onClick={handleCreateFlight}>Create flight</Button>
               </CardBody>
-              </Card>}
-          </Dialog>}
+              { }
+            </Card>}
+          { }
+        </Dialog>}
     </div>
   )
 }

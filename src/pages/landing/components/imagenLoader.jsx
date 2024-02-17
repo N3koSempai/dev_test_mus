@@ -5,13 +5,12 @@ import { Button, Typography } from '@material-tailwind/react'
 import useFlightInfo from '../../../stores/store'
 export default function ImageLoader ({ getPhoto }) {
   const [images, setImages] = useState([])
-  const { img, changeImg } = useFlightInfo()
+  const { /* img */ changeImg } = useFlightInfo()
   const [isMax, setIsMax] = useState(false)
   const maxNumber = 1
 
   useEffect(() => {
     changeImg(images)
-    console.log(images[0])
   }, [images])
   const onChange = (imageList) => {
     // data for submit
@@ -56,8 +55,8 @@ export default function ImageLoader ({ getPhoto }) {
                   {...dragProps}
                 >
                 Click or Drop here
-                {/* eslint-disable-next-line */}
-              </Button>}
+
+                </Button>}
             {imageList.map((image, index) => (
               <div key={index} className='image-item flex flex-col items-center justify-center '>
                 <img src={image.data_url} alt='' width='100' />

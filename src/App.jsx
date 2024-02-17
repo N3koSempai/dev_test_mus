@@ -1,8 +1,8 @@
 import { Button, CardBody, Card, Typography, ButtonGroup, CardHeader } from '@material-tailwind/react'
 import './App.css'
-import useFlightInfo from './stores/store'
-import flightimg from './assets/BestFlight.png'
-import useGetFlights from './services/getFlights'
+
+import flightImg from './assets/BestFlight.png'
+
 import GetFlightsData from './adapters/getFlightsData'
 function App () {
   return (
@@ -29,7 +29,7 @@ function App () {
           >
             <img
               className='h-72 w-full object-cover object-center'
-              src={flightimg}
+              src={flightImg}
             />
           </CardHeader>
           <CardBody style={{
