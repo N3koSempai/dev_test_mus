@@ -18,12 +18,15 @@ import {
 import { useUserInfo } from '../../stores/User'
 import AvatarIcon from '../../assets/account.svg'
 import loginUser from '../../adapters/loginUser'
+import SignUpButton from './components/SignUpButton.jsx'
+import { useState } from 'react'
+import { Alert } from '@material-tailwind/react'
 export function NavbarTool () {
   const { login, changeLogin } = useUserInfo()
   const [openNav, setOpenNav] = React.useState(false)
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const [openDialog, setOpenDialog] = React.useState(false)
-
+  const [errorLoginCode, setErrorLoginCode] = useState('')
   const handlerOpen = () => {
     setOpenDialog(!openDialog)
   }
@@ -35,13 +38,20 @@ export function NavbarTool () {
   }, [])
 
   const handlerLogin = async () => {
-    const userInfo = document.getElementById('userInput')?.value
+    const emailInfo = document.getElementById('userInput')?.value
     const passInfo = document.getElementById('passInput')?.value
-    const resp = await loginUser(userInfo, passInfo)
+    const regex = /^\S+@\S+$/
+        if (regex.test(emailInfo)) {
+    const resp = await loginUser(emailInfo, passInfo)
     if (resp === true) {
       changeLogin(true)
       setOpenDialog(false)
+    } else {
+      setErrorLoginCode('credential error')      
     }
+  } else {
+    setErrorLoginCode('email format incorrect')
+  }
   }
   const handlerLogout = () => {
     changeLogin(false)
@@ -50,15 +60,18 @@ export function NavbarTool () {
   return (
     <Navbar className='mx-auto mt-2 max-w-screen-xl px-4 py-2 lg:px-8 lg:py-4 w-[60%]'>
 
-      <Dialog open={openDialog} handler={handlerOpen} className='p-6 !pr-10 !pl-10 '>
-        <DialogHeader className='flex items-center justify-center'> <Typography style={{ fontWeight: 700, fontSize: '1.5rem' }}>login </Typography></DialogHeader>
-        <DialogBody>
-          <div className='flex flex-col gap-4'>
-            <Input id='userInput' label='User' placeholder='Admin' />
-            <Input id='passInput' label='Password' placeholder='*****' />
+      <Dialog open={openDialog} size='xs' handler={handlerOpen} className=' p-6 !pr-10 !pl-10 '>
+        <DialogHeader className='flex flex-col items-center justify-center'> <Typography style={{ fontWeight: 700, fontSize: '1.5rem' }}>login </Typography></DialogHeader>
+        <DialogBody className='!w-[100%] flex items-center justify-center'>
+          <div className='flex flex-col gap-4 w-[64%] items-center justify-center'>
+            <Input id='userInput' type='email' label='Email' placeholder='admin@test.com' />
+            <Input id='passInput' type='password' label='Password' placeholder='*****' />
+            {errorLoginCode? <Alert className='text-black text-center' color='orange'> {errorLoginCode}</Alert> :<></>}
           </div>
+        
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter className='flex items-center justify-center'>
+        <div  className='flex items-center justify-center'>
           <Button
             variant='text'
             color='red'
@@ -70,6 +83,7 @@ export function NavbarTool () {
           <Button variant='gradient' color='green' onClick={handlerLogin}>
             <span>Confirm</span>
           </Button>
+          </div>
         </DialogFooter>
       </Dialog>
 
@@ -119,10 +133,15 @@ export function NavbarTool () {
 
             </Menu>
 
-            : <Button variant='text' size='sm' onClick={handlerOpen}>
+            :
+            <div className='flex flex-row lg:gap-2'>
+             <Button variant='text' size='sm' onClick={handlerOpen}>
               Log In
 
-            </Button>}
+            </Button>
+            <SignUpButton />
+            </div>
+            }
         </div>
         <IconButton
           variant='text'
@@ -175,7 +194,10 @@ export function NavbarTool () {
 
               </Button>
 
-              : <Avatar src={AvatarIcon} />}
+              :  <Button variant='filled' className='flex items-center justify-center bg-gray-200'>
+                  <Avatar variant='circular' size='sm' className='border border-gray-900 p-0.5' src={AvatarIcon} />
+
+                </Button>}
 
           </div>
         </div>
