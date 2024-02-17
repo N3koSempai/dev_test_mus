@@ -14,7 +14,7 @@ export default async function useGetFlights (key, size = 10) {
   const response = await axios.get(`${url}/flights?page=${key}&size=${size}`, config)
   return response  
 } catch (error){
-  console.log(error)
+
   return false
   }
 }

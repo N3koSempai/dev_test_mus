@@ -11,9 +11,7 @@
     "preview": "vite preview",
     "server": "flights-server",
     "server-debug": "flights-server --verbose",
-    "mocks": "mocks-server",
-    "cypress:open": "cypress open",
-    "cypress:run": "pnpm start && cypress run"
+    "mocks": "mocks-server"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",

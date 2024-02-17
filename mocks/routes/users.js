@@ -1,7 +1,7 @@
 // Use this file only as a guide for first steps using routes. Delete it when you have added your own route files.
 // For a detailed explanation regarding each routes property, visit:
 // https://mocks-server.org/docs/usage/routes
-
+/* eslint-disable */
 // users data
 const USERS = [
   {

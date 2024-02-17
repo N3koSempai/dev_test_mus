@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react"
 import { Menu,MenuHandler,Alert, MenuItem, MenuList,Dialog, Button, Card, CardBody, Typography } from "@material-tailwind/react"
 import checkFlight from "../../../adapters/createFlight"
 import { Input } from "@material-tailwind/react"
 import isOnlyDigits from '../../../utils/isDigits'
 import { editFlightAdapter } from "../../../adapters/editFlight"
-import GetFlightsData from "../../../adapters/getFlightsData"
+
 import { useEffect } from "react"
 import deleteFlightService from "../../../services/deleteFlight"
 
@@ -24,7 +25,7 @@ export default function EditMenuButton({ get, id }) {
     const [codeError, setCodeError] = useState('')
     const [oldId, setOldId] = useState('')
     
-    useEffect(()=> {setOldId(id)},[])
+    useEffect(()=> {setOldId(id)},[id])
 
     const handlerEdit =async () => {
         const secondResp = await checkFlight(newCode)
