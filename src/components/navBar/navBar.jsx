@@ -28,9 +28,11 @@ export function NavbarTool () {
   const [openDialog, setOpenDialog] = React.useState(false)
   const [errorLoginCode, setErrorLoginCode] = useState('')
   const handlerOpen = () => {
+    setErrorLoginCode('') 
     setOpenDialog(!openDialog)
   }
   React.useEffect(() => {
+    
     window.addEventListener(
       'resize',
       () => window.innerWidth >= 960 && setOpenNav(false)

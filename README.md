@@ -18,27 +18,15 @@ pnpm install
 pnpm run start
 ```
 
-you can register a user but if you prefer you can use this account (without quotation marks).
-
-email:
-
-```code
-john@doe.com
-```
-
-password:
-
-```code
-12345678
-```
-
 [!IMPORTANT]
 
 this will start both the server and the frontend. wait until vite start
 
 [!NOTE]
 
-In production it is advisable to perform a build before running the frontend in order to improve performance, but for this application it will not be necessary.
+1- is necesary register and user and flights inside the app
+
+2- In production it is advisable to perform a build before running the frontend in order to improve performance, but for this application it will not be necessary.
 
 ### completed requirements:
 
@@ -68,13 +56,9 @@ more info:
 
 [Theming - Material Tailwind](https://www.material-tailwind.com/docs/react/theming)
 
-
-
 2- I have a problem getting the photo from the server . I needs to  known about how the server expects to handle image saving. If it does it by binary blob or what is stored is a url which I must reference to an image? I have gone for the binary blob option but the response does not include data.
 
  there is an additional minor error in the swagger documentation. both the endpoint for updating a flighs data with picture and without picture. both say 'Updates one flight without photo' in the swagger documentation. 
-
-
 
 3 - task complete:
 
