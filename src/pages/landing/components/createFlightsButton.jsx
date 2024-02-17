@@ -82,7 +82,10 @@ export default function CreateFlightsButton ({ get }) {
           setCodeError('unknown error')
         }
       } else {
-        setCodeError('the code already exist, try with another')
+        // this is only for animation purpose
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        setIsLoading(false)
+        setCodeError('error: the code already exist or have a connection error')
       }
     }
   }
@@ -137,7 +140,7 @@ export default function CreateFlightsButton ({ get }) {
           {isLoading
             ? <div className='flex flex-col items-center justify-center'>
               <LoadingScreen />
-            </div>
+              </div>
 
             : <Card className='mx-auto w-full max-w-[24rem]'>
               <CardBody className='flex flex-col gap-4'>
@@ -157,8 +160,8 @@ export default function CreateFlightsButton ({ get }) {
                 {codeError ? <Alert color='orange' variant='small' className='mt-1 text-color-gray'>{codeError}</Alert> : <></>}
                 <Button onClick={handleCreateFlight}>Create flight</Button>
               </CardBody>
-            </Card>}
-        </Dialog>}
+              </Card>}
+          </Dialog>}
     </div>
   )
 }
